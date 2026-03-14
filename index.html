@@ -296,6 +296,49 @@ h1 .grad {
   margin-top:14px; font-size:11px; font-weight:600;
   color: var(--accent-color);
 }
+.tc-links {
+  display:flex; gap:7px; margin-top:12px; flex-wrap:wrap;
+}
+.tc-link {
+  display:inline-flex; align-items:center; gap:5px;
+  padding:6px 13px; border-radius:8px;
+  font-size:11px; font-weight:500;
+  text-decoration:none;
+  transition:all 0.2s;
+  border:1px solid rgba(255,255,255,0.1);
+  background:rgba(255,255,255,0.05);
+  color:var(--text-muted);
+}
+.tc-link:hover {
+  background:rgba(255,255,255,0.1);
+  border-color:rgba(255,255,255,0.2);
+  color:#fff;
+  transform:translateY(-1px);
+}
+.tc-link.primary {
+  border-color:var(--accent-color);
+  color:var(--accent-color);
+  background:rgba(255,255,255,0.04);
+}
+.tc-link.primary:hover {
+  background:var(--accent-color);
+  color:#000;
+}
+.pt-links { display:flex; gap:6px; flex-wrap:wrap; }
+.pt-link {
+  display:inline-flex; align-items:center; gap:4px;
+  padding:5px 12px; border-radius:7px;
+  font-size:10px; font-weight:500; text-decoration:none;
+  border:1px solid rgba(255,255,255,0.1);
+  background:rgba(255,255,255,0.04);
+  color:var(--text-muted);
+  transition:all 0.2s; white-space:nowrap;
+}
+.pt-link:hover {
+  background:rgba(255,255,255,0.1);
+  border-color:rgba(255,255,255,0.2);
+  color:#fff;
+}
 
 /* ─── PRICING ─── */
 .pricing-table-wrap {
@@ -618,61 +661,71 @@ const tools = [
     free:'$0 — GPT-4o mini, limited GPT-4o', pro:'$20/mo — GPT-4o, o3, image gen', team:'$30/user/mo — Advanced models, admin',
     proPrice:20, freeScore:72,
     scores:{writing:88,coding:85,research:82,reasoning:91,multimodal:90,speed:80},
-    features:['Image Gen','Voice Mode','Custom GPTs','Web Search','Code Interpreter','Memory'], context:'128K' },
+    features:['Image Gen','Voice Mode','Custom GPTs','Web Search','Code Interpreter','Memory'], context:'128K',
+    links:{ free:'https://chat.openai.com', pro:'https://chat.openai.com/upgrade', team:'https://openai.com/chatgpt/team' } },
   { id:'claude',    name:'Claude',    maker:'Anthropic',      icon:'🌟', color:'#fb923c',
     badge:'Best Writing', bestAt:'Long-form writing, nuanced reasoning, safety-focused design, and a huge context window.',
     free:'$0 — Claude 3.5 Haiku, limited Sonnet', pro:'$20/mo — Claude Sonnet 4.6, Opus', team:'$30/user/mo — Priority + extended context',
     proPrice:20, freeScore:70,
     scores:{writing:95,coding:90,research:88,reasoning:94,multimodal:82,speed:78},
-    features:['200K Context','Artifacts','Projects','Computer Use','Doc Analysis','Research Mode'], context:'200K' },
+    features:['200K Context','Artifacts','Projects','Computer Use','Doc Analysis','Research Mode'], context:'200K',
+    links:{ free:'https://claude.ai', pro:'https://claude.ai/upgrade', team:'https://claude.ai/upgrade' } },
   { id:'gemini',    name:'Gemini',    maker:'Google',         icon:'💎', color:'#60a5fa',
     badge:'Google Suite', bestAt:'Deep Google Workspace integration, real-time search grounding, and video/image understanding.',
     free:'$0 — Gemini 1.5 Flash', pro:'$20/mo — Gemini 2.0 Ultra', team:'$30/user/mo — Workspace AI',
     proPrice:20, freeScore:75,
     scores:{writing:85,coding:86,research:90,reasoning:88,multimodal:93,speed:85},
-    features:['1M Context','Google Search','Workspace Sync','Video AI','Real-time Data','Imagen 3'], context:'1M' },
+    features:['1M Context','Google Search','Workspace Sync','Video AI','Real-time Data','Imagen 3'], context:'1M',
+    links:{ free:'https://gemini.google.com', pro:'https://gemini.google.com/advanced', team:'https://workspace.google.com/products/gemini' } },
   { id:'perplexity',name:'Perplexity',maker:'Perplexity AI',  icon:'🔍', color:'#c084fc',
     badge:'Best Research', bestAt:'Real-time web research with inline citations — the AI-powered search engine replacement.',
     free:'$0 — Limited Pro searches/day', pro:'$20/mo — Unlimited Pro, all models', team:'$40/user/mo — SSO, enterprise search',
     proPrice:20, freeScore:65,
     scores:{writing:78,coding:72,research:96,reasoning:84,multimodal:76,speed:90},
-    features:['Real-time Web','Citations','Academic Search','File Upload','Collections','API'], context:'32K' },
+    features:['Real-time Web','Citations','Academic Search','File Upload','Collections','API'], context:'32K',
+    links:{ free:'https://www.perplexity.ai', pro:'https://www.perplexity.ai/pro', team:'https://www.perplexity.ai/business' } },
   { id:'grok',      name:'Grok',      maker:'xAI',            icon:'⚡', color:'#f87171',
     badge:'X Data Access', bestAt:'Live social data from X (Twitter), unfiltered responses, and rapid real-time analysis.',
     free:'$0 — Grok 2 via X (limited)', pro:'$16/mo — SuperGrok, image gen, deep think', team:'Enterprise — Custom pricing',
     proPrice:16, freeScore:55,
     scores:{writing:82,coding:83,research:87,reasoning:90,multimodal:85,speed:88},
-    features:['X/Twitter Data','Real-time News','Image Gen','Think Mode','DeepSearch','Uncensored'], context:'128K' },
+    features:['X/Twitter Data','Real-time News','Image Gen','Think Mode','DeepSearch','Uncensored'], context:'128K',
+    links:{ free:'https://grok.com', pro:'https://x.ai/grok', team:'https://x.ai/grok' } },
   { id:'copilot',   name:'Copilot',   maker:'Microsoft',      icon:'🪟', color:'#38bdf8',
     badge:'Microsoft 365', bestAt:'Office 365 integration, enterprise IT workflows, and productivity within the Microsoft suite.',
     free:'$0 — GPT-4o, Bing search', pro:'$20/mo — Priority GPT-4o, Designer', team:'$30/user/mo — M365 Copilot, Teams, Office',
     proPrice:20, freeScore:78,
     scores:{writing:84,coding:82,research:83,reasoning:85,multimodal:87,speed:86},
-    features:['Office 365','Bing Search','Image Gen','Teams','Plugins','Voice'], context:'128K' },
+    features:['Office 365','Bing Search','Image Gen','Teams','Plugins','Voice'], context:'128K',
+    links:{ free:'https://copilot.microsoft.com', pro:'https://copilot.microsoft.com/upgrade', team:'https://www.microsoft.com/en-us/microsoft-365/business/copilot-for-microsoft-365' } },
   { id:'mistral',   name:'Mistral',   maker:'Mistral AI',     icon:'🌬️', color:'#fbbf24',
     badge:'Open Source EU', bestAt:'Efficient European models, open-weight self-hosting, cost-effective API, and GDPR compliance.',
     free:'$0 — le Chat free tier', pro:'$15/mo — le Chat Pro, all models', team:'Pay-as-you-go API — Custom',
     proPrice:15, freeScore:60,
     scores:{writing:82,coding:84,research:80,reasoning:86,multimodal:79,speed:92},
-    features:['Open Weights','EU-based','Function Calling','JSON Mode','Canvas Editor','Fast Inference'], context:'128K' },
+    features:['Open Weights','EU-based','Function Calling','JSON Mode','Canvas Editor','Fast Inference'], context:'128K',
+    links:{ free:'https://chat.mistral.ai', pro:'https://chat.mistral.ai/upgrade', team:'https://mistral.ai/enterprise' } },
   { id:'metaai',    name:'Meta AI',   maker:'Meta',           icon:'∞', color:'#818cf8',
     badge:'Free & Embedded', bestAt:'100% free, deeply embedded in WhatsApp, Instagram, and Facebook for social AI use.',
     free:'$0 — Llama 4 Scout, fully free', pro:'No paid tier — completely free', team:'Meta Business Suite — Custom',
     proPrice:0, freeScore:80,
     scores:{writing:80,coding:76,research:78,reasoning:83,multimodal:88,speed:87},
-    features:['100% Free','WhatsApp','Instagram','Image Gen','Web Search','Llama Open Model'], context:'128K' },
+    features:['100% Free','WhatsApp','Instagram','Image Gen','Web Search','Llama Open Model'], context:'128K',
+    links:{ free:'https://www.meta.ai', pro:'https://www.meta.ai', team:'https://business.facebook.com' } },
   { id:'deepseek',  name:'DeepSeek',  maker:'DeepSeek AI',    icon:'🐋', color:'#22d3ee',
     badge:'Best Value', bestAt:'Exceptional reasoning at ultra-low cost. Strong coding and transparent chain-of-thought.',
     free:'$0 — DeepSeek R2, generous limits', pro:'API only — ~$0.14/1M tokens', team:'API-first model — Custom',
     proPrice:0, freeScore:82,
     scores:{writing:83,coding:91,research:85,reasoning:95,multimodal:72,speed:70},
-    features:['Chain of Thought','Cheap API','Open Weights','Strong Math','Code Gen','R2 Model'], context:'64K' },
+    features:['Chain of Thought','Cheap API','Open Weights','Strong Math','Code Gen','R2 Model'], context:'64K',
+    links:{ free:'https://chat.deepseek.com', pro:'https://platform.deepseek.com', team:'https://platform.deepseek.com' } },
   { id:'notionai',  name:'Notion AI', maker:'Notion Labs',    icon:'📝', color:'#a78bfa',
     badge:'Best for Docs', bestAt:'Natively embedded in Notion — intelligent document Q&A, summaries, and workspace AI.',
     free:'$0 — Limited AI actions', pro:'$10/mo add-on — Unlimited AI', team:'$10/user/mo — Business plan required',
     proPrice:10, freeScore:45,
     scores:{writing:86,coding:70,research:79,reasoning:78,multimodal:74,speed:83},
-    features:['Notion Native','Doc Q&A','Auto-fill','Meeting Notes','Templates','Database AI'], context:'Varies' },
+    features:['Notion Native','Doc Q&A','Auto-fill','Meeting Notes','Templates','Database AI'], context:'Varies',
+    links:{ free:'https://www.notion.so', pro:'https://www.notion.so/pricing', team:'https://www.notion.so/pricing' } },
 ];
 
 const recommendations = [
@@ -722,6 +775,11 @@ function renderOverview() {
       <div class="tc-best">${t.bestAt}</div>
       <div class="tc-scores">${scoreHTML}</div>
       <div class="tc-avg">⬡ Avg ${avg}/100</div>
+      <div class="tc-links" onclick="event.stopPropagation()">
+        <a class="tc-link primary" href="${t.links.free}" target="_blank" rel="noopener">Try Free ↗</a>
+        ${t.proPrice > 0 ? `<a class="tc-link" href="${t.links.pro}" target="_blank" rel="noopener">Get Pro ↗</a>` : ''}
+        <a class="tc-link" href="${t.links.team}" target="_blank" rel="noopener">Teams ↗</a>
+      </div>
     </div>`;
   }).join('');
 }
@@ -732,7 +790,7 @@ function renderOverview() {
 function renderPricing() {
   const tbl = document.getElementById('pricingTable');
   tbl.innerHTML = `<thead><tr>
-    <th>Tool</th><th>Free Tier</th><th>Pro / Plus</th><th>Team / Enterprise</th>
+    <th>Tool</th><th>Free Tier</th><th>Pro / Plus</th><th>Team / Enterprise</th><th>Quick Links</th>
   </tr></thead><tbody>
   ${tools.map(t=>`<tr>
     <td><div class="pt-tool">
@@ -742,6 +800,11 @@ function renderPricing() {
     <td class="pt-free-tag">${t.free}</td>
     <td class="pt-paid">${t.pro}</td>
     <td class="pt-paid">${t.team}</td>
+    <td><div class="pt-links">
+      <a class="pt-link" style="border-color:${t.color};color:${t.color}" href="${t.links.free}" target="_blank" rel="noopener">Try Free ↗</a>
+      ${t.proPrice > 0 ? `<a class="pt-link" href="${t.links.pro}" target="_blank" rel="noopener">Pro ↗</a>` : ''}
+      <a class="pt-link" href="${t.links.team}" target="_blank" rel="noopener">Teams ↗</a>
+    </div></td>
   </tr>`).join('')}
   </tbody>`;
 
@@ -881,6 +944,7 @@ function renderFeatures() {
     ${labels.map(l=>`<th>${l}</th>`).join('')}
     <th>Context</th>
     <th>Key Features</th>
+    <th>Links</th>
   </tr></thead>
   <tbody>${tools.map(t=>`
   <tr>
@@ -891,6 +955,10 @@ function renderFeatures() {
     </div></td>`).join('')}
     <td style="color:var(--text-dim);font-size:11px;white-space:nowrap">${t.context}</td>
     <td>${t.features.map(f=>`<span class="feat-tag">${f}</span>`).join('')}</td>
+    <td><div style="display:flex;flex-direction:column;gap:5px">
+      <a class="pt-link" style="border-color:${t.color};color:${t.color}" href="${t.links.free}" target="_blank" rel="noopener">Try Free ↗</a>
+      ${t.proPrice > 0 ? `<a class="pt-link" href="${t.links.pro}" target="_blank" rel="noopener">Upgrade ↗</a>` : ''}
+    </div></td>
   </tr>`).join('')}
   </tbody>`;
 }
@@ -914,7 +982,8 @@ function renderRecommend() {
         <span class="reco-winner-name">${r.winner}</span>
       </div>
       <div class="reco-why">${r.why}</div>
-      <div class="reco-runners"><strong>Runners-up:</strong> ${r.runners}</div>
+      <div class="reco-runners" style="margin-bottom:14px"><strong>Runners-up:</strong> ${r.runners}</div>
+      <a class="pt-link" style="border-color:${r.color};color:${r.color};display:inline-flex" href="${(tools.find(t=>t.name===r.winner)||{links:{free:'#'}}).links.free}" target="_blank" rel="noopener">Visit ${r.winner} ↗</a>
     </div>`;
   }).join('');
 }
