@@ -1,0 +1,970 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AI Tools 2026 — The Definitive Comparison</title>
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=IBM+Plex+Mono:wght@300;400;500&family=Instrument+Serif:ital@0;1&display=swap" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js"></script>
+<style>
+  :root {
+    --bg: #0a0a0f;
+    --bg2: #111118;
+    --bg3: #18181f;
+    --border: rgba(255,255,255,0.07);
+    --text: #e8e8f0;
+    --muted: #6b6b80;
+    --chatgpt: #10b981;
+    --claude: #f97316;
+    --gemini: #4f8ef7;
+    --perplexity: #a78bfa;
+    --grok: #ef4444;
+    --copilot: #0ea5e9;
+    --mistral: #f59e0b;
+    --metaai: #3b82f6;
+    --deepseek: #06b6d4;
+    --notionai: #8b5cf6;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: 'IBM Plex Mono', monospace;
+    overflow-x: hidden;
+  }
+
+  /* NOISE TEXTURE OVERLAY */
+  body::before {
+    content: '';
+    position: fixed; inset: 0;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.04'/%3E%3C/svg%3E");
+    pointer-events: none; z-index: 1000; opacity: 0.6;
+  }
+
+  /* HEADER */
+  header {
+    padding: 80px 60px 60px;
+    border-bottom: 1px solid var(--border);
+    position: relative;
+    overflow: hidden;
+  }
+  header::after {
+    content: '';
+    position: absolute;
+    top: -100px; right: -100px;
+    width: 500px; height: 500px;
+    background: radial-gradient(circle, rgba(79,142,247,0.08) 0%, transparent 70%);
+    pointer-events: none;
+  }
+  .header-kicker {
+    font-size: 11px;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--muted);
+    margin-bottom: 20px;
+  }
+  h1 {
+    font-family: 'Syne', sans-serif;
+    font-size: clamp(36px, 6vw, 80px);
+    font-weight: 800;
+    line-height: 0.95;
+    letter-spacing: -0.03em;
+    color: #fff;
+    margin-bottom: 24px;
+  }
+  h1 em {
+    font-family: 'Instrument Serif', serif;
+    font-style: italic;
+    font-weight: 400;
+    color: var(--claude);
+  }
+  .header-meta {
+    display: flex; gap: 40px; align-items: center;
+    flex-wrap: wrap;
+  }
+  .header-stat {
+    font-size: 12px; color: var(--muted);
+  }
+  .header-stat strong { color: var(--text); font-weight: 500; }
+
+  /* NAV TABS */
+  .nav-tabs {
+    display: flex; gap: 0;
+    padding: 0 60px;
+    border-bottom: 1px solid var(--border);
+    overflow-x: auto;
+    scrollbar-width: none;
+  }
+  .nav-tabs::-webkit-scrollbar { display: none; }
+  .tab-btn {
+    padding: 18px 24px;
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 12px;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+    color: var(--muted);
+    background: none; border: none;
+    border-bottom: 2px solid transparent;
+    cursor: pointer;
+    transition: all 0.2s;
+    white-space: nowrap;
+  }
+  .tab-btn:hover { color: var(--text); }
+  .tab-btn.active {
+    color: #fff;
+    border-bottom-color: var(--claude);
+  }
+
+  /* SECTIONS */
+  .section { display: none; padding: 60px; }
+  .section.active { display: block; }
+
+  .section-title {
+    font-family: 'Syne', sans-serif;
+    font-size: 28px; font-weight: 700;
+    margin-bottom: 8px; color: #fff;
+  }
+  .section-sub {
+    font-size: 12px; color: var(--muted);
+    margin-bottom: 40px;
+    line-height: 1.6;
+  }
+
+  /* OVERVIEW GRID */
+  .tools-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: 16px;
+  }
+  .tool-card {
+    background: var(--bg2);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 24px;
+    cursor: pointer;
+    transition: all 0.25s;
+    position: relative;
+    overflow: hidden;
+  }
+  .tool-card::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 2px;
+    background: var(--accent);
+    opacity: 0.8;
+  }
+  .tool-card:hover {
+    border-color: rgba(255,255,255,0.15);
+    transform: translateY(-2px);
+    background: var(--bg3);
+  }
+  .tool-header {
+    display: flex; align-items: center;
+    gap: 12px; margin-bottom: 16px;
+  }
+  .tool-icon {
+    width: 40px; height: 40px;
+    border-radius: 10px;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 20px;
+    background: rgba(255,255,255,0.05);
+    flex-shrink: 0;
+  }
+  .tool-name {
+    font-family: 'Syne', sans-serif;
+    font-size: 16px; font-weight: 700; color: #fff;
+  }
+  .tool-maker {
+    font-size: 10px; color: var(--muted);
+    letter-spacing: 0.05em; text-transform: uppercase;
+  }
+  .tool-badge {
+    display: inline-block;
+    padding: 3px 8px; border-radius: 4px;
+    font-size: 10px; letter-spacing: 0.05em;
+    text-transform: uppercase; margin-bottom: 12px;
+    background: rgba(255,255,255,0.05);
+    border: 1px solid rgba(255,255,255,0.08);
+    color: var(--accent);
+  }
+  .tool-best {
+    font-size: 11px; color: var(--muted);
+    line-height: 1.5; margin-bottom: 14px;
+  }
+  .tool-best strong { color: var(--text); }
+  .mini-scores {
+    display: grid; grid-template-columns: 1fr 1fr;
+    gap: 6px;
+  }
+  .mini-score-item {
+    font-size: 10px; color: var(--muted);
+  }
+  .mini-score-bar {
+    height: 3px; border-radius: 2px;
+    background: rgba(255,255,255,0.06);
+    margin-top: 3px; overflow: hidden;
+  }
+  .mini-score-fill {
+    height: 100%; border-radius: 2px;
+    background: var(--accent);
+    transition: width 0.8s ease;
+  }
+  .price-tag {
+    position: absolute; top: 16px; right: 16px;
+    font-size: 11px; color: var(--accent);
+    font-weight: 500;
+  }
+
+  /* PRICING TABLE */
+  .pricing-grid {
+    display: grid;
+    grid-template-columns: 200px repeat(3, 1fr);
+    gap: 1px;
+    background: var(--border);
+    border-radius: 12px;
+    overflow: hidden;
+    margin-bottom: 40px;
+  }
+  .pricing-cell {
+    background: var(--bg2);
+    padding: 14px 16px;
+    font-size: 12px;
+  }
+  .pricing-cell.header-row {
+    background: var(--bg3);
+    font-family: 'Syne', sans-serif;
+    font-size: 11px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: var(--muted);
+  }
+  .pricing-cell.tool-label {
+    display: flex; align-items: center; gap: 10px;
+    font-family: 'Syne', sans-serif;
+    font-size: 13px; font-weight: 600; color: #fff;
+  }
+  .dot { width: 8px; height: 8px; border-radius: 50%; flex-shrink: 0; }
+  .price-free { color: #10b981; }
+  .price-paid { color: var(--text); }
+  .check { color: #10b981; }
+  .cross { color: var(--muted); }
+
+  /* CHART CONTAINERS */
+  .charts-row {
+    display: grid; grid-template-columns: 1fr 1fr;
+    gap: 24px; margin-bottom: 40px;
+  }
+  @media (max-width: 900px) { .charts-row { grid-template-columns: 1fr; } }
+  .chart-box {
+    background: var(--bg2);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 28px;
+  }
+  .chart-box-title {
+    font-family: 'Syne', sans-serif;
+    font-size: 14px; font-weight: 700;
+    color: #fff; margin-bottom: 4px;
+  }
+  .chart-box-sub {
+    font-size: 11px; color: var(--muted);
+    margin-bottom: 24px;
+  }
+  canvas { max-width: 100%; }
+
+  /* RADAR SECTION */
+  .radar-controls {
+    display: flex; gap: 10px;
+    flex-wrap: wrap; margin-bottom: 28px;
+  }
+  .radar-btn {
+    padding: 6px 14px;
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 11px;
+    border-radius: 6px;
+    border: 1px solid var(--border);
+    background: var(--bg2);
+    color: var(--muted);
+    cursor: pointer;
+    transition: all 0.2s;
+  }
+  .radar-btn.active, .radar-btn:hover {
+    background: var(--bg3);
+    color: var(--text);
+    border-color: rgba(255,255,255,0.15);
+  }
+  .radar-btn.selected {
+    border-color: var(--accent-color, rgba(255,255,255,0.3));
+    color: #fff;
+  }
+
+  /* RECOMMENDATION MATRIX */
+  .matrix-filters {
+    display: flex; gap: 10px; flex-wrap: wrap;
+    margin-bottom: 28px;
+  }
+  .filter-chip {
+    padding: 7px 16px;
+    border-radius: 100px;
+    font-size: 11px;
+    letter-spacing: 0.04em;
+    border: 1px solid var(--border);
+    background: var(--bg2);
+    color: var(--muted);
+    cursor: pointer;
+    transition: all 0.2s;
+  }
+  .filter-chip:hover { color: var(--text); }
+  .filter-chip.active {
+    background: rgba(255,255,255,0.08);
+    border-color: rgba(255,255,255,0.2);
+    color: #fff;
+  }
+  .reco-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+    gap: 14px;
+  }
+  .reco-card {
+    background: var(--bg2);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 20px;
+    transition: all 0.2s;
+  }
+  .reco-card.hidden { display: none; }
+  .reco-card:hover {
+    border-color: rgba(255,255,255,0.12);
+    background: var(--bg3);
+  }
+  .reco-use-case {
+    font-size: 10px;
+    text-transform: uppercase;
+    letter-spacing: 0.12em;
+    color: var(--muted);
+    margin-bottom: 10px;
+  }
+  .reco-winner {
+    font-family: 'Syne', sans-serif;
+    font-size: 20px; font-weight: 800;
+    color: #fff; margin-bottom: 4px;
+  }
+  .reco-winner span { color: var(--accent); }
+  .reco-why {
+    font-size: 11px;
+    color: var(--muted);
+    line-height: 1.6;
+    margin-bottom: 14px;
+  }
+  .reco-runners {
+    font-size: 10px; color: var(--muted);
+  }
+  .reco-runners strong { color: rgba(255,255,255,0.4); }
+
+  /* FEATURES TABLE */
+  .feat-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 12px;
+  }
+  .feat-table th {
+    text-align: left;
+    padding: 10px 14px;
+    font-size: 10px;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    color: var(--muted);
+    background: var(--bg3);
+    border-bottom: 1px solid var(--border);
+    white-space: nowrap;
+  }
+  .feat-table td {
+    padding: 12px 14px;
+    border-bottom: 1px solid var(--border);
+    vertical-align: middle;
+    color: var(--text);
+  }
+  .feat-table tr:hover td { background: var(--bg2); }
+  .feat-table .tool-col {
+    font-family: 'Syne', sans-serif;
+    font-weight: 600; color: #fff;
+    font-size: 13px;
+  }
+  .feat-chip {
+    display: inline-block;
+    padding: 2px 7px;
+    border-radius: 4px;
+    font-size: 10px;
+    background: rgba(255,255,255,0.04);
+    border: 1px solid var(--border);
+    margin: 2px;
+  }
+  .score-cell {
+    display: flex; align-items: center; gap: 8px;
+  }
+  .score-num {
+    font-size: 13px; font-weight: 500;
+    width: 28px; text-align: right;
+  }
+  .score-bar-bg {
+    flex: 1; height: 4px;
+    background: rgba(255,255,255,0.06);
+    border-radius: 2px; overflow: hidden;
+  }
+  .score-bar-fill {
+    height: 100%; border-radius: 2px;
+  }
+
+  /* FOOTER */
+  footer {
+    border-top: 1px solid var(--border);
+    padding: 30px 60px;
+    display: flex; justify-content: space-between;
+    align-items: center; flex-wrap: gap;
+    font-size: 11px; color: var(--muted);
+  }
+
+  /* ANIMATIONS */
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(16px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+  .section.active .tool-card,
+  .section.active .reco-card,
+  .section.active .chart-box {
+    animation: fadeUp 0.4s ease both;
+  }
+  .tool-card:nth-child(1) { animation-delay: 0.03s; }
+  .tool-card:nth-child(2) { animation-delay: 0.06s; }
+  .tool-card:nth-child(3) { animation-delay: 0.09s; }
+  .tool-card:nth-child(4) { animation-delay: 0.12s; }
+  .tool-card:nth-child(5) { animation-delay: 0.15s; }
+  .tool-card:nth-child(6) { animation-delay: 0.18s; }
+  .tool-card:nth-child(7) { animation-delay: 0.21s; }
+  .tool-card:nth-child(8) { animation-delay: 0.24s; }
+  .tool-card:nth-child(9) { animation-delay: 0.27s; }
+  .tool-card:nth-child(10) { animation-delay: 0.30s; }
+
+  @media (max-width: 768px) {
+    header, .nav-tabs, .section { padding-left: 20px; padding-right: 20px; }
+    header { padding-top: 40px; padding-bottom: 40px; }
+    .pricing-grid { grid-template-columns: 130px repeat(3, 1fr); font-size: 11px; }
+    footer { flex-direction: column; gap: 10px; text-align: center; }
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="header-kicker">// Intelligence Report &nbsp;·&nbsp; March 2026 &nbsp;·&nbsp; v4.1</div>
+  <h1>The <em>definitive</em><br>AI tools of 2026</h1>
+  <div class="header-meta">
+    <div class="header-stat"><strong>10</strong> tools compared</div>
+    <div class="header-stat"><strong>6</strong> capability dimensions</div>
+    <div class="header-stat"><strong>18</strong> use-case recommendations</div>
+    <div class="header-stat">Updated <strong>Q1 2026</strong></div>
+  </div>
+</header>
+
+<nav class="nav-tabs">
+  <button class="tab-btn active" onclick="switchTab('overview')">Overview</button>
+  <button class="tab-btn" onclick="switchTab('pricing')">Pricing</button>
+  <button class="tab-btn" onclick="switchTab('capabilities')">Capabilities</button>
+  <button class="tab-btn" onclick="switchTab('features')">Features</button>
+  <button class="tab-btn" onclick="switchTab('recommend')">Recommend</button>
+</nav>
+
+<!-- ═══════════════════ OVERVIEW ═══════════════════ -->
+<section id="overview" class="section active">
+  <div class="section-title">All 10 Tools at a Glance</div>
+  <div class="section-sub">Click any card to explore. Scores reflect Q1 2026 benchmarks across writing, coding, reasoning, research, multimodal, and speed.</div>
+  <div class="tools-grid" id="toolsGrid"></div>
+</section>
+
+<!-- ═══════════════════ PRICING ═══════════════════ -->
+<section id="pricing" class="section">
+  <div class="section-title">Pricing Tiers</div>
+  <div class="section-sub">Monthly prices in USD. Annual plans typically save 16–20%.</div>
+
+  <div class="pricing-grid">
+    <div class="pricing-cell header-row">Tool</div>
+    <div class="pricing-cell header-row">Free Tier</div>
+    <div class="pricing-cell header-row">Pro / Plus</div>
+    <div class="pricing-cell header-row">Team / Enterprise</div>
+  </div>
+
+  <div class="charts-row" style="margin-top:40px">
+    <div class="chart-box">
+      <div class="chart-box-title">Pro Plan Monthly Cost</div>
+      <div class="chart-box-sub">USD per user/month — Pro or equivalent tier</div>
+      <canvas id="pricingChart" height="260"></canvas>
+    </div>
+    <div class="chart-box">
+      <div class="chart-box-title">Free Tier Generosity</div>
+      <div class="chart-box-sub">Composite score: message limits, model quality, features</div>
+      <canvas id="freeChart" height="260"></canvas>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════════ CAPABILITIES ═══════════════════ -->
+<section id="capabilities" class="section">
+  <div class="section-title">Capability Comparison</div>
+  <div class="section-sub">Select up to 4 tools to compare across 6 dimensions. Scores are 0–100.</div>
+
+  <div class="radar-controls" id="radarControls"></div>
+
+  <div class="charts-row">
+    <div class="chart-box" style="grid-column: span 1">
+      <div class="chart-box-title">Radar — Multi-Dimension Profile</div>
+      <div class="chart-box-sub">Writing · Coding · Research · Reasoning · Multimodal · Speed</div>
+      <canvas id="radarChart" height="340"></canvas>
+    </div>
+    <div class="chart-box">
+      <div class="chart-box-title">Overall Score Ranking</div>
+      <div class="chart-box-sub">Average across all 6 capability dimensions</div>
+      <canvas id="overallChart" height="340"></canvas>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════════ FEATURES ═══════════════════ -->
+<section id="features" class="section">
+  <div class="section-title">Feature Matrix</div>
+  <div class="section-sub">Key features and scores across all 10 platforms.</div>
+  <div style="overflow-x:auto">
+    <table class="feat-table" id="featureTable"></table>
+  </div>
+</section>
+
+<!-- ═══════════════════ RECOMMEND ═══════════════════ -->
+<section id="recommend" class="section">
+  <div class="section-title">Recommendation Matrix</div>
+  <div class="section-sub">Filter by your primary use case to find the best fit.</div>
+  <div class="matrix-filters" id="matrixFilters"></div>
+  <div class="reco-grid" id="recoGrid"></div>
+</section>
+
+<footer>
+  <div>AI Tools 2026 · Comparison Dashboard</div>
+  <div>Data reflects public information as of Q1 2026. Prices and features subject to change.</div>
+</footer>
+
+<script>
+// ═══════════════════════════════════════════════
+//  DATA
+// ═══════════════════════════════════════════════
+const tools = [
+  {
+    id: 'chatgpt', name: 'ChatGPT', maker: 'OpenAI', icon: '🤖', color: '#10b981',
+    badge: 'Most Popular', bestAt: 'General-purpose assistant, plugin ecosystem, and widest public adoption',
+    free: '$0 — GPT-4o mini, limited GPT-4o', pro: '$20/mo — GPT-4o, o3, image gen',
+    team: '$30/user/mo — Advanced models, admin controls',
+    proPrice: 20, freeScore: 72,
+    scores: { writing: 88, coding: 85, research: 82, reasoning: 91, multimodal: 90, speed: 80 },
+    features: ['Image generation', 'Voice mode', 'Custom GPTs', 'Web search', 'Code interpreter', 'Memory'],
+    context: '128K tokens'
+  },
+  {
+    id: 'claude', name: 'Claude', maker: 'Anthropic', icon: '🌟', color: '#f97316',
+    badge: 'Best for Writing', bestAt: 'Long-form writing, nuanced reasoning, safety-focused, huge context window',
+    free: '$0 — Claude 3.5 Haiku, limited Sonnet', pro: '$20/mo — Claude Sonnet 4.6, Opus',
+    team: '$30/user/mo — Priority access, extended context',
+    proPrice: 20, freeScore: 70,
+    scores: { writing: 95, coding: 90, research: 88, reasoning: 94, multimodal: 82, speed: 78 },
+    features: ['200K context', 'Artifacts', 'Projects', 'Computer use', 'Document analysis', 'Research mode'],
+    context: '200K tokens'
+  },
+  {
+    id: 'gemini', name: 'Gemini', maker: 'Google', icon: '💎', color: '#4f8ef7',
+    badge: 'Google Integration', bestAt: 'Deep Google Workspace integration, real-time search, multimodal tasks',
+    free: '$0 — Gemini 1.5 Flash', pro: '$20/mo — Gemini 2.0 Ultra, Workspace',
+    team: '$30/user/mo — Workspace integration, admin',
+    proPrice: 20, freeScore: 75,
+    scores: { writing: 85, coding: 86, research: 90, reasoning: 88, multimodal: 93, speed: 85 },
+    features: ['1M context', 'Google Search', 'Workspace sync', 'Video understanding', 'Real-time data', 'Imagen 3'],
+    context: '1M tokens'
+  },
+  {
+    id: 'perplexity', name: 'Perplexity', maker: 'Perplexity AI', icon: '🔍', color: '#a78bfa',
+    badge: 'Best for Research', bestAt: 'Real-time web research with citations, replacing traditional search',
+    free: '$0 — Limited Pro searches/day', pro: '$20/mo — Unlimited Pro, all models',
+    team: '$40/user/mo — Enterprise search, SSO',
+    proPrice: 20, freeScore: 65,
+    scores: { writing: 78, coding: 72, research: 96, reasoning: 84, multimodal: 76, speed: 90 },
+    features: ['Real-time web', 'Citations', 'Academic search', 'File upload', 'Collections', 'API access'],
+    context: '32K tokens'
+  },
+  {
+    id: 'grok', name: 'Grok', maker: 'xAI', icon: '⚡', color: '#ef4444',
+    badge: 'Real-time X Data', bestAt: 'Real-time social data from X, unfiltered responses, rapid analysis',
+    free: '$0 — Grok 2 via X (limited)', pro: '$16/mo — SuperGrok, image gen, deeper think',
+    team: 'Enterprise pricing — Custom',
+    proPrice: 16, freeScore: 55,
+    scores: { writing: 82, coding: 83, research: 87, reasoning: 90, multimodal: 85, speed: 88 },
+    features: ['X/Twitter data', 'Real-time news', 'Image gen', 'Think mode', 'DeepSearch', 'Uncensored mode'],
+    context: '128K tokens'
+  },
+  {
+    id: 'copilot', name: 'Copilot', maker: 'Microsoft', icon: '🪟', color: '#0ea5e9',
+    badge: 'Microsoft 365', bestAt: 'Office 365 integration, enterprise IT, productivity within Microsoft suite',
+    free: '$0 — GPT-4o, Bing search', pro: '$20/mo — Priority GPT-4o, Designer',
+    team: '$30/user/mo — M365 Copilot, Teams, Office AI',
+    proPrice: 20, freeScore: 78,
+    scores: { writing: 84, coding: 82, research: 83, reasoning: 85, multimodal: 87, speed: 86 },
+    features: ['Office 365', 'Bing search', 'Image gen', 'Teams integration', 'Plugins', 'Voice'],
+    context: '128K tokens'
+  },
+  {
+    id: 'mistral', name: 'Mistral', maker: 'Mistral AI', icon: '🌬️', color: '#f59e0b',
+    badge: 'Best Open Source', bestAt: 'Efficient European models, open-source options, cost-effective API',
+    free: '$0 — le Chat free tier', pro: '$15/mo — le Chat Pro, all models',
+    team: 'Custom API pricing — Pay-as-you-go',
+    proPrice: 15, freeScore: 60,
+    scores: { writing: 82, coding: 84, research: 80, reasoning: 86, multimodal: 79, speed: 92 },
+    features: ['Open weights', 'EU-based', 'Function calling', 'JSON mode', 'Canvas editor', 'Fast inference'],
+    context: '128K tokens'
+  },
+  {
+    id: 'metaai', name: 'Meta AI', maker: 'Meta', icon: '∞', color: '#3b82f6',
+    badge: 'Free & Embedded', bestAt: 'Social media integration, completely free, WhatsApp/Instagram access',
+    free: '$0 — Llama 4 Scout, fully free', pro: 'No paid tier — fully free',
+    team: 'Meta Business Suite — Custom',
+    proPrice: 0, freeScore: 80,
+    scores: { writing: 80, coding: 76, research: 78, reasoning: 83, multimodal: 88, speed: 87 },
+    features: ['100% free', 'WhatsApp', 'Instagram', 'Image gen', 'Web search', 'Llama open model'],
+    context: '128K tokens'
+  },
+  {
+    id: 'deepseek', name: 'DeepSeek', maker: 'DeepSeek', icon: '🐋', color: '#06b6d4',
+    badge: 'Best Value', bestAt: 'Exceptional reasoning at low cost, strong coding, transparent chain-of-thought',
+    free: '$0 — DeepSeek R2, generous limits', pro: 'Very low API cost — ~$0.14/1M tokens',
+    team: 'API-only model — Custom',
+    proPrice: 0, freeScore: 82,
+    scores: { writing: 83, coding: 91, research: 85, reasoning: 95, multimodal: 72, speed: 70 },
+    features: ['Chain of thought', 'Cheap API', 'Open weights', 'Strong math', 'Code generation', 'R2 model'],
+    context: '64K tokens'
+  },
+  {
+    id: 'notionai', name: 'Notion AI', maker: 'Notion Labs', icon: '📝', color: '#8b5cf6',
+    badge: 'Best for Docs', bestAt: 'Embedded in Notion workspace, document intelligence, team wikis',
+    free: '$0 — Limited AI actions', pro: '$10/mo add-on — Unlimited AI, all features',
+    team: '$10/user/mo add-on — Business plan required',
+    proPrice: 10, freeScore: 45,
+    scores: { writing: 86, coding: 70, research: 79, reasoning: 78, multimodal: 74, speed: 83 },
+    features: ['Notion native', 'Doc Q&A', 'Auto-fill', 'Meeting notes', 'Templates', 'Database AI'],
+    context: 'Varies'
+  }
+];
+
+const recommendations = [
+  { useCase: 'Long-form Writing', category: 'writing', winner: 'Claude', winnerColor: '#f97316', why: 'Unmatched nuance, style adherence, and coherence over very long documents. The 200K context handles entire manuscripts.', runners: 'ChatGPT, Gemini' },
+  { useCase: 'Code Generation', category: 'coding', winner: 'DeepSeek', winnerColor: '#06b6d4', why: 'R2 model achieves near-frontier coding quality at a fraction of the cost. Strong in algorithms and debugging.', runners: 'Claude, ChatGPT' },
+  { useCase: 'Web Research', category: 'research', winner: 'Perplexity', winnerColor: '#a78bfa', why: 'Purpose-built for research with inline citations, academic search, and real-time web — far better than a search engine.', runners: 'Gemini, Grok' },
+  { useCase: 'Data Analysis', category: 'coding', winner: 'ChatGPT', winnerColor: '#10b981', why: 'Code Interpreter with Python, charts, and file processing is the gold standard for ad-hoc data work.', runners: 'Claude, Gemini' },
+  { useCase: 'Social Media Intel', category: 'research', winner: 'Grok', winnerColor: '#ef4444', why: 'Only tool with live access to X (Twitter) data. Unmatched for trending topics, sentiment, and real-time discourse.', runners: 'Perplexity, Gemini' },
+  { useCase: 'Document Q&A', category: 'writing', winner: 'Notion AI', winnerColor: '#8b5cf6', why: 'If your content lives in Notion, Notion AI is natively embedded and understands your entire workspace.', runners: 'Claude, Gemini' },
+  { useCase: 'Complex Reasoning', category: 'reasoning', winner: 'Claude', winnerColor: '#f97316', why: 'Claude Opus consistently tops logic, philosophy, and multi-step reasoning benchmarks with careful, cited thinking.', runners: 'DeepSeek, ChatGPT o3' },
+  { useCase: 'Image Understanding', category: 'multimodal', winner: 'Gemini', winnerColor: '#4f8ef7', why: '1M token context with native video/image input. Gemini Ultra handles diagrams, charts, and visual documents best.', runners: 'GPT-4o, Copilot' },
+  { useCase: 'Microsoft 365 Users', category: 'productivity', winner: 'Copilot', winnerColor: '#0ea5e9', why: 'Deep integration with Word, Excel, PowerPoint, Teams, and Outlook makes this the obvious choice for M365 shops.', runners: 'ChatGPT, Gemini' },
+  { useCase: 'Google Workspace', category: 'productivity', winner: 'Gemini', winnerColor: '#4f8ef7', why: 'Built into Docs, Sheets, and Gmail. Drafts, summarizes, and analyzes within your existing workflow.', runners: 'ChatGPT, Copilot' },
+  { useCase: 'Completely Free Use', category: 'budget', winner: 'Meta AI', winnerColor: '#3b82f6', why: 'Llama 4 Scout is fully free with no paywalls, available on WhatsApp and Instagram. The best free option available.', runners: 'DeepSeek, Copilot' },
+  { useCase: 'Budget Developers', category: 'budget', winner: 'DeepSeek', winnerColor: '#06b6d4', why: 'API pricing is 10–50× cheaper than GPT-4o or Claude for equivalent reasoning tasks. Exceptional value.', runners: 'Mistral, Meta AI' },
+  { useCase: 'European Privacy', category: 'productivity', winner: 'Mistral', winnerColor: '#f59e0b', why: 'France-based, GDPR-native, with open-weight models you can self-host. The only frontier EU-origin option.', runners: 'Copilot, Gemini' },
+  { useCase: 'Voice Assistant', category: 'multimodal', winner: 'ChatGPT', winnerColor: '#10b981', why: 'Advanced Voice Mode with natural turn-taking, emotional tone, and interruption handling is the most polished voice AI.', runners: 'Gemini, Copilot' },
+  { useCase: 'Customer Support Bots', category: 'productivity', winner: 'Claude', winnerColor: '#f97316', why: 'Constitutional AI reduces harmful outputs. Excellent at following system prompts and staying in-persona reliably.', runners: 'ChatGPT, Mistral' },
+  { useCase: 'Math & STEM', category: 'reasoning', winner: 'DeepSeek', winnerColor: '#06b6d4', why: 'DeepSeek R2 scores near the top on competition math (AIME, AMC) and STEM benchmarks — rivaling o3.', runners: 'ChatGPT o3, Gemini' },
+  { useCase: 'Image Generation', category: 'multimodal', winner: 'ChatGPT', winnerColor: '#10b981', why: 'DALL·E 3 integration remains class-leading for prompt adherence and quality, with GPT-4o vision editing capabilities.', runners: 'Copilot, Gemini' },
+  { useCase: 'Open Source / Self-Host', category: 'budget', winner: 'Mistral', winnerColor: '#f59e0b', why: 'Mistral 7B, Mixtral, and Mistral Large have open weights you can run locally or on your own infra.', runners: 'Meta AI (Llama 4), DeepSeek' },
+];
+
+const categories = ['All', 'Writing', 'Coding', 'Research', 'Reasoning', 'Multimodal', 'Productivity', 'Budget'];
+
+// ═══════════════════════════════════════════════
+//  RENDER OVERVIEW
+// ═══════════════════════════════════════════════
+function renderOverview() {
+  const grid = document.getElementById('toolsGrid');
+  grid.innerHTML = tools.map(t => {
+    const scoreKeys = Object.keys(t.scores);
+    const miniScores = scoreKeys.map(k => `
+      <div class="mini-score-item">
+        ${k.charAt(0).toUpperCase()+k.slice(1)}
+        <div class="mini-score-bar">
+          <div class="mini-score-fill" style="width:${t.scores[k]}%;background:${t.color}"></div>
+        </div>
+      </div>`).join('');
+    const avg = Math.round(Object.values(t.scores).reduce((a,b)=>a+b,0)/6);
+    return `
+    <div class="tool-card" style="--accent:${t.color}" onclick="switchTab('capabilities')">
+      <div class="price-tag">${t.proPrice === 0 ? 'Free' : '$'+t.proPrice+'/mo'}</div>
+      <div class="tool-header">
+        <div class="tool-icon">${t.icon}</div>
+        <div>
+          <div class="tool-name">${t.name}</div>
+          <div class="tool-maker">${t.maker}</div>
+        </div>
+      </div>
+      <div class="tool-badge">${t.badge}</div>
+      <div class="tool-best"><strong>Best at:</strong> ${t.bestAt}</div>
+      <div class="mini-scores">${miniScores}</div>
+      <div style="margin-top:14px;font-size:11px;color:${t.color};font-weight:500">Avg score: ${avg}/100</div>
+    </div>`;
+  }).join('');
+}
+
+// ═══════════════════════════════════════════════
+//  RENDER PRICING
+// ═══════════════════════════════════════════════
+function renderPricing() {
+  const grid = document.querySelector('.pricing-grid');
+  // Remove old rows except headers
+  const headers = Array.from(grid.children).slice(0,4);
+  grid.innerHTML = '';
+  headers.forEach(h => grid.appendChild(h));
+
+  tools.forEach(t => {
+    [
+      `<div class="pricing-cell tool-label"><div class="dot" style="background:${t.color}"></div>${t.name}</div>`,
+      `<div class="pricing-cell price-free">${t.free}</div>`,
+      `<div class="pricing-cell price-paid">${t.pro}</div>`,
+      `<div class="pricing-cell price-paid">${t.team}</div>`
+    ].forEach(html => { grid.insertAdjacentHTML('beforeend', html); });
+  });
+
+  // Pricing bar chart
+  const ctx1 = document.getElementById('pricingChart').getContext('2d');
+  if (window._pricingChart) window._pricingChart.destroy();
+  window._pricingChart = new Chart(ctx1, {
+    type: 'bar',
+    data: {
+      labels: tools.map(t => t.name),
+      datasets: [{
+        data: tools.map(t => t.proPrice),
+        backgroundColor: tools.map(t => t.color + 'cc'),
+        borderColor: tools.map(t => t.color),
+        borderWidth: 1, borderRadius: 4
+      }]
+    },
+    options: {
+      responsive: true,
+      plugins: { legend: { display: false } },
+      scales: {
+        x: { ticks: { color: '#6b6b80', font: { family: 'IBM Plex Mono', size: 10 } }, grid: { color: 'rgba(255,255,255,0.04)' } },
+        y: {
+          ticks: { color: '#6b6b80', font: { family: 'IBM Plex Mono', size: 10 }, callback: v => '$'+v },
+          grid: { color: 'rgba(255,255,255,0.04)' }
+        }
+      }
+    }
+  });
+
+  const ctx2 = document.getElementById('freeChart').getContext('2d');
+  if (window._freeChart) window._freeChart.destroy();
+  window._freeChart = new Chart(ctx2, {
+    type: 'bar',
+    data: {
+      labels: tools.map(t => t.name),
+      datasets: [{
+        data: tools.map(t => t.freeScore),
+        backgroundColor: tools.map(t => t.color + 'aa'),
+        borderColor: tools.map(t => t.color),
+        borderWidth: 1, borderRadius: 4
+      }]
+    },
+    options: {
+      indexAxis: 'y',
+      responsive: true,
+      plugins: { legend: { display: false } },
+      scales: {
+        x: { ticks: { color: '#6b6b80', font: { family: 'IBM Plex Mono', size: 10 } }, grid: { color: 'rgba(255,255,255,0.04)' }, max: 100 },
+        y: { ticks: { color: '#6b6b80', font: { family: 'IBM Plex Mono', size: 10 } }, grid: { color: 'rgba(255,255,255,0.04)' } }
+      }
+    }
+  });
+}
+
+// ═══════════════════════════════════════════════
+//  RENDER CAPABILITIES
+// ═══════════════════════════════════════════════
+let selectedTools = ['chatgpt', 'claude', 'gemini', 'grok'];
+
+function renderCapabilities() {
+  const controls = document.getElementById('radarControls');
+  controls.innerHTML = tools.map(t => `
+    <button class="radar-btn ${selectedTools.includes(t.id) ? 'selected' : ''}"
+      style="${selectedTools.includes(t.id) ? `border-color:${t.color};color:${t.color}` : ''}"
+      onclick="toggleRadar('${t.id}')">
+      ${t.icon} ${t.name}
+    </button>`).join('');
+  drawRadar();
+  drawOverall();
+}
+
+function toggleRadar(id) {
+  if (selectedTools.includes(id)) {
+    if (selectedTools.length > 1) selectedTools = selectedTools.filter(x => x !== id);
+  } else {
+    if (selectedTools.length < 4) selectedTools.push(id);
+  }
+  renderCapabilities();
+}
+
+function drawRadar() {
+  const ctx = document.getElementById('radarChart').getContext('2d');
+  if (window._radarChart) window._radarChart.destroy();
+  const labels = ['Writing', 'Coding', 'Research', 'Reasoning', 'Multimodal', 'Speed'];
+  const datasets = selectedTools.map(id => {
+    const t = tools.find(x => x.id === id);
+    return {
+      label: t.name,
+      data: labels.map(l => t.scores[l.toLowerCase()]),
+      borderColor: t.color,
+      backgroundColor: t.color + '18',
+      pointBackgroundColor: t.color,
+      borderWidth: 2, pointRadius: 4
+    };
+  });
+  window._radarChart = new Chart(ctx, {
+    type: 'radar',
+    data: { labels, datasets },
+    options: {
+      responsive: true,
+      plugins: {
+        legend: { labels: { color: '#9090a0', font: { family: 'IBM Plex Mono', size: 11 }, boxWidth: 12 } }
+      },
+      scales: {
+        r: {
+          min: 60, max: 100,
+          ticks: { color: '#6b6b80', font: { size: 9 }, stepSize: 10, backdropColor: 'transparent' },
+          grid: { color: 'rgba(255,255,255,0.06)' },
+          pointLabels: { color: '#9090a0', font: { family: 'IBM Plex Mono', size: 11 } },
+          angleLines: { color: 'rgba(255,255,255,0.06)' }
+        }
+      }
+    }
+  });
+}
+
+function drawOverall() {
+  const ctx = document.getElementById('overallChart').getContext('2d');
+  if (window._overallChart) window._overallChart.destroy();
+  const sorted = [...tools].sort((a,b) => {
+    const avgA = Object.values(a.scores).reduce((x,y)=>x+y,0)/6;
+    const avgB = Object.values(b.scores).reduce((x,y)=>x+y,0)/6;
+    return avgB - avgA;
+  });
+  window._overallChart = new Chart(ctx, {
+    type: 'bar',
+    data: {
+      labels: sorted.map(t => t.name),
+      datasets: [{
+        data: sorted.map(t => Math.round(Object.values(t.scores).reduce((a,b)=>a+b,0)/6*10)/10),
+        backgroundColor: sorted.map(t => t.color + 'bb'),
+        borderColor: sorted.map(t => t.color),
+        borderWidth: 1, borderRadius: 4
+      }]
+    },
+    options: {
+      indexAxis: 'y', responsive: true,
+      plugins: { legend: { display: false } },
+      scales: {
+        x: { min: 70, max: 95, ticks: { color: '#6b6b80', font: { family: 'IBM Plex Mono', size: 10 } }, grid: { color: 'rgba(255,255,255,0.04)' } },
+        y: { ticks: { color: '#aaaabc', font: { family: 'IBM Plex Mono', size: 11 } }, grid: { display: false } }
+      }
+    }
+  });
+}
+
+// ═══════════════════════════════════════════════
+//  RENDER FEATURES
+// ═══════════════════════════════════════════════
+function renderFeatures() {
+  const tbl = document.getElementById('featureTable');
+  const dims = ['writing','coding','research','reasoning','multimodal','speed'];
+  const dimLabels = ['Writing','Coding','Research','Reasoning','Multimodal','Speed'];
+
+  tbl.innerHTML = `<thead><tr>
+    <th>Tool</th>
+    ${dimLabels.map(d=>`<th>${d}</th>`).join('')}
+    <th>Context</th>
+    <th>Key Features</th>
+  </tr></thead>
+  <tbody>${tools.map(t => {
+    const scoresCells = dims.map(d => `
+      <td><div class="score-cell">
+        <span class="score-num" style="color:${t.color}">${t.scores[d]}</span>
+        <div class="score-bar-bg"><div class="score-bar-fill" style="width:${t.scores[d]}%;background:${t.color}"></div></div>
+      </div></td>`).join('');
+    const feats = t.features.map(f => `<span class="feat-chip">${f}</span>`).join('');
+    return `<tr>
+      <td class="tool-col">
+        <div style="display:flex;align-items:center;gap:8px">
+          <div style="width:6px;height:6px;border-radius:50%;background:${t.color};flex-shrink:0"></div>
+          ${t.name}
+        </div>
+        <div style="font-size:10px;color:var(--muted);font-family:'IBM Plex Mono';font-weight:400;margin-top:2px">${t.maker}</div>
+      </td>
+      ${scoresCells}
+      <td style="color:var(--muted);font-size:11px;white-space:nowrap">${t.context}</td>
+      <td>${feats}</td>
+    </tr>`;
+  }).join('')}</tbody>`;
+}
+
+// ═══════════════════════════════════════════════
+//  RENDER RECOMMENDATIONS
+// ═══════════════════════════════════════════════
+let activeFilter = 'All';
+function renderRecommend() {
+  const filters = document.getElementById('matrixFilters');
+  filters.innerHTML = categories.map(c => `
+    <button class="filter-chip ${activeFilter === c ? 'active' : ''}" onclick="filterReco('${c}')">${c}</button>
+  `).join('');
+
+  const grid = document.getElementById('recoGrid');
+  grid.innerHTML = recommendations.map((r, i) => {
+    const show = activeFilter === 'All' || activeFilter.toLowerCase() === r.category;
+    return `
+    <div class="reco-card ${show ? '' : 'hidden'}" data-cat="${r.category}">
+      <div class="reco-use-case">// ${r.useCase}</div>
+      <div class="reco-winner">Best: <span style="color:${r.winnerColor}">${r.winner}</span></div>
+      <div class="reco-why">${r.why}</div>
+      <div class="reco-runners"><strong>Runners-up:</strong> ${r.runners}</div>
+    </div>`;
+  }).join('');
+}
+
+function filterReco(cat) {
+  activeFilter = cat;
+  renderRecommend();
+}
+
+// ═══════════════════════════════════════════════
+//  TAB SWITCHING
+// ═══════════════════════════════════════════════
+function switchTab(id) {
+  document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
+  document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+  document.getElementById(id).classList.add('active');
+  const tabs = ['overview','pricing','capabilities','features','recommend'];
+  document.querySelectorAll('.tab-btn')[tabs.indexOf(id)].classList.add('active');
+
+  if (id === 'pricing') renderPricing();
+  else if (id === 'capabilities') renderCapabilities();
+  else if (id === 'features') renderFeatures();
+  else if (id === 'recommend') renderRecommend();
+}
+
+// ═══════════════════════════════════════════════
+//  INIT
+// ═══════════════════════════════════════════════
+Chart.defaults.color = '#6b6b80';
+renderOverview();
+</script>
+</body>
+</html>
